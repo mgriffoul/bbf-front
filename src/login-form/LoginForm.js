@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Fab} from "@material-ui/core";
@@ -35,22 +35,23 @@ function LoginForm() {
 
     const classes = useStyles();
 
-    const [message, setMessage] = useState("");
-
-
-
     const handleClick = function () {
-        axios.get('https://localhost:8443/test/authent?login=TOTO')
+
+        axios.post('https://localhost:8443/authenticate',
+            {
+                username:"toto",
+                password:"tata",
+                timeout: 1000,
+                headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b3RvIiwiZXhwIjoxNTcxNDU2NDQyLCJpYXQiOjE1NzE0Mzg0NDJ9.TAeKL13fifBqfymdldrKeO9p767rcgsmgyPCpbxODq2Rje8pH66DmysHvg2YZA-df4-rfixn_DzXd1oOTuq7EA'},
+            })
             .then(function (response) {
                 // handle success
                 console.log(response.data);
-                setMessage(response.data);
             })
     };
 
     return (
         <div id={"main"} className={classes.root}>
-            <div>caca{message}</div>
             <form className={classes.container}>
                 <Logo/>
                 <TextField
