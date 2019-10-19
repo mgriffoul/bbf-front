@@ -37,18 +37,39 @@ function LoginForm() {
 
     const handleClick = function () {
 
+        let token = "";
         axios.post('https://localhost:8443/authenticate',
             {
                 username:"toto",
                 password:"tata",
                 timeout: 1000,
-                headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b3RvIiwiZXhwIjoxNTcxNDU2NDQyLCJpYXQiOjE1NzE0Mzg0NDJ9.TAeKL13fifBqfymdldrKeO9p767rcgsmgyPCpbxODq2Rje8pH66DmysHvg2YZA-df4-rfixn_DzXd1oOTuq7EA'},
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             })
             .then(function (response) {
+
+                console.log(response.data.token);
+                token = response.data.token;
                 // handle success
-                console.log(response.data);
-            })
+                axios.get('https://localhost:8443/test',
+                    {
+                        timeout: 1000,
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(function (response) {
+                        // handle success
+                        console.log('GET MESSAGE : '+ response.data);
+                    });
+            });
+
+
+
     };
+
 
     return (
         <div id={"main"} className={classes.root}>
